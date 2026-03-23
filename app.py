@@ -8,6 +8,19 @@ app = Flask(__name__)
 def home():
     return render_template("index.html")
 
+@app.route("/learn")
+def learn():
+    return render_template("learn.html")
+
+@app.route("/gstin")
+def gstin():
+    return render_template("gstin.html")
+
+@app.route("/pan")
+def pan():
+    return render_template("pan.html")
+
+
 # GST Verify Route
 @app.route("/verify")
 def verify():
