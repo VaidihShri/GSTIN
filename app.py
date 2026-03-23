@@ -6,7 +6,7 @@ app = Flask(__name__)
 # Home page
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return "Working"
 
 # GST Verify Route
 @app.route("/verify")
