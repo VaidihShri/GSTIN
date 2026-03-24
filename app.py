@@ -11,15 +11,16 @@ def home():
 
 @app.route("/learn")
 def learn():
-    return render_template("learn.html")
+    return render_template("gstin/learn.html")
 
 @app.route("/gstin")
 def gstin():
-    return render_template("gstin.html")
+    return render_template("gstin/gstin.html")
 
 @app.route("/pan")
+
 def pan():
-    return render_template("pan.html")
+    return render_template("pan/pan.html")
 
 
 # GST Verify Route
@@ -51,6 +52,43 @@ def verify():
             return jsonify({
                 "error": "API Error",
                 "status_code": response.status_code,
+                "details": response.text
+            })
+
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
+
+@app.route("/verify3b")
+def verify3b():
+    gstin = request.args.get("gstin")
+
+    url = f"https://gst-return-status.p.rapidapi.com/free/gstin/{gstin}"
+
+    headers = {
+        "x-rapidapi-key": "4ed8201f08mshd71c9fe2e71734ap17e0d6jsn559706f3e3f2",
+        "x-rapidapi-host": "gst-return-status.p.rapidapi.com",
+        "Content-Type": "application/json"
+    }
+
+    try:
+        response = requests.get(url, headers=headers)
+        print("STATUS:", response.status_code)
+        print("RESPONSE:", response.text)
+
+        if response.status_code == 200:
+            try:
+                data = response.json()
+                return jsonify(data)
+            except:
+                return jsonify({
+                    "error": "Invalid JSON from API",
+                    "raw": response.text
+                })
+        else:
+            return jsonify({
+                "error": "API Error",
+                "status": response.status_code,
                 "details": response.text
             })
 
