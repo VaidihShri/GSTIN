@@ -73,9 +73,7 @@ def verify3b():
 
     try:
         response = requests.get(url, headers=headers)
-        print("STATUS:", response.status_code)
-        print("RESPONSE:", response.text)
-
+        
         if response.status_code == 200:
             try:
                 data = response.json()
